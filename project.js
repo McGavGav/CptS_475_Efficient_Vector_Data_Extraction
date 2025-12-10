@@ -4,17 +4,6 @@ var waCounties = counties.filter(ee.Filter.eq('STATEFP', '53'));
 Map.centerObject(waCounties, 6);
 Map.addLayer(waCounties, {}, 'WA Counties');
 
-/*
-
-var zipCodes = table;
-Map.addLayer(zipCodes, {}, 'WA ZIP Codes')
-
-var roads = table2;
-Map.addLayer(table2, {}, 'WA Roads')
-
-*/
-
-
 // STRATEGY 1: Spatial Chunking/Tiling
 // Divides large polygons into manageable grid cells
 
@@ -306,7 +295,7 @@ function createColorLegend(title, palette, min, max, position) {
   return legendPanel;
 }
 
-// Create all legends but don't add them yet
+// Create all legends
 var ndviLegend = createColorLegend('NDVI (Green Space)', ['white', 'yellow', 'green'], 0.2, 0.8, 'bottom-left');
 var no2Legend = createColorLegend('NO2 (mol/m²)', ['blue', 'yellow', 'red'], 0, 0.0002, 'bottom-left');
 var lstLegend = createColorLegend('Temperature (°C)', ['blue', 'white', 'red'], 10, 30, 'bottom-left');
@@ -368,9 +357,6 @@ var controlPanel = ui.Panel({
 
 // Add control panel to map
 Map.add(controlPanel);
-
-// Show NDVI legend by default
-//Map.add(ndviLegend);
 
 // Calculate statistics for each environmental layer across WA
 var ndviStats = ndviLayer.reduceRegion({
@@ -543,7 +529,7 @@ var multiExposure = calculateMultiExposure(trip, layers, samplingInterval);
 
 print('Trip Exposure Summary (All Layers):', multiExposure);
 
-// List of layer names as used in your 'layers' dictionary
+// List of layer names 
 var layerNames = ee.List(['NDVI', 'NO2', 'Temperature', 'PM25']);
 
 // Build a FeatureCollection of {layer, stat, value} using properties on multiExposure
@@ -562,7 +548,7 @@ var statsFc = ee.FeatureCollection(
   }).flatten()
 );
 
-// Print the table so you can inspect values in the console
+// Print the table in console
 print('Trip stats table (layer, stat, value):', statsFc);
 
 //small charts
